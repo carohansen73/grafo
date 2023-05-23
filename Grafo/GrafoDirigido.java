@@ -9,10 +9,6 @@ import java.util.Map.Entry;
 
 public class GrafoDirigido<T> implements Grafo<T> {
 	
-	
-	//clave= vertices, valor: arcos que salen del vertice
-//	private HashMap<Integer, ArrayList<T>> vertices;
-	
 	//clave= verticesOrigen, valor: arcos que salen del vertice, con clave destino
 	private HashMap<Integer, HashMap<Integer, T>> vertices;
 	
@@ -90,15 +86,14 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public Iterator<Integer> obtenerVertices() {
 		LinkedList<Integer> resultado = new LinkedList<Integer>();
 		
-	 vertices.forEach((key, value) -> {
-			 resultado.add(key);
-		 });
+		vertices.forEach((key, value) -> {
+				 resultado.add(key);
+			 });
 		return resultado.iterator();
 	}
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		
 		LinkedList<Integer> adyacentes = new LinkedList<Integer>();
 		if (this.contieneVertice(verticeId)) {
 			
@@ -113,9 +108,20 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Arco<T>> arcos = new LinkedList<Arco<T>>();
+		
+		for (int i: vertices.keySet()){
+			//me devuelve todas las lineas del segundo hashMap
+			for(Entry<Integer, T> info : vertices.get(i).entrySet()) {
+				//creo los arcos  los agrego a la lista
+				Arco<T> arco = new Arco(i, info.getKey(), info.getValue());
+				arcos.add(arco);
+			}
+		}
+		//lo retorno como iterator
+		return arcos.iterator();
 	}
+	
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {

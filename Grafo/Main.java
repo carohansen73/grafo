@@ -24,15 +24,22 @@ public class Main {
 		grafo.agregarArco(10, 25, "E");
 		grafo.agregarArco(20, 25, "F");
 		
-		
-		
-		
-		
+		/* ANDA OK
+		Iterator arcos = grafo.obtenerArcos();
+		while (arcos.hasNext()) {
+			Arco arco = (Arco) arcos.next();
+			System.out.print(arco.getVerticeOrigen() + " ");
+			System.out.print(arco.getVerticeDestino() + " ");
+			System.out.println(arco.getEtiqueta());
+		}
+		*/
+		/*
 		DFS dfs = new DFS(grafo);
 		ArrayList<Integer> resultDfs = dfs.DFS();
 		for ( int i = 0; i < resultDfs.size(); i++) {
 			System.out.println(resultDfs.get(i));
 		}
+		*/
 		
 		/* CAMINO ANDA OK
 		Camino caminos = new Camino(grafo, 10, 25, 3);
