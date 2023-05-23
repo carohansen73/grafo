@@ -5,55 +5,71 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Camino {
-		private Grafo grafo;
-		private HashMap<Integer,String> colores;
-		private int verticeOrigen, verticeDestino;
+	private Grafo grafo;
+	private HashMap<Integer,String> colores;
+	private int verticeOrigen, verticeDestino;
+	private ArrayList listaCaminos;
+	private int costoLimite;
+	private int costo;
+	
+	public Camino(Grafo grafo, int vOrigen, int vDestino,int costoLimite) {
+		this.grafo = grafo;
+		this.colores = new HashMap<>();
+		this.verticeOrigen = vOrigen;
+		this.verticeDestino = vDestino;
+		this.costoLimite = costoLimite;
+		this.listaCaminos = new ArrayList<ArrayList>();
+		this.costo=0;
+	}
+	
+	public ArrayList camino() {
 		
-		public Camino(Grafo grafo, int vOrigen, int vDestino) {
-			this.grafo = grafo;
-			this.colores = new HashMap<>();
-			this.verticeOrigen = vOrigen;
-			this.verticeDestino = vDestino;
+		Iterator vertices = this.grafo.obtenerVertices();
+		while(vertices.hasNext()) {
+			int verticeId = (int) vertices.next();
+			colores.put(verticeId, "blanco");
 		}
 		
-		public ArrayList camino() {
-			Iterator vertices = this.grafo.obtenerVertices();
-			while(vertices.hasNext()) {
-				int verticeId = (int) vertices.next();
-				colores.put(verticeId, "blanco");
-			}
-			//solo lo lanzo al visit del origen
-			ArrayList camino = DFS_Visit(verticeOrigen, verticeDestino);
-			return camino;
-		}
+		ArrayList solucionParcial = new ArrayList();
+		solucionParcial.add(this.verticeOrigen);
+		this.costo++;
 		
-		private ArrayList<Integer> DFS_Visit(int vertice, int vDestino) {
-			//condicion de corte
-			if(vertice == vDestino) {
+		DFS_Visit(verticeOrigen, solucionParcial);
+		if(listaCaminos.isEmpty()) {
+			listaCaminos.add("No hay camino");
+		}
+		return listaCaminos;
+	}
+	
+	private void DFS_Visit(int vertice, ArrayList solucionActual) {
+		//condicion de corte
+		if(vertice == this.verticeDestino) {
+			if(costo <= costoLimite) {
 				ArrayList salida = new ArrayList<Integer>();
-				salida.add(vertice);
-				return salida;
+				salida.addAll(solucionActual);
+				listaCaminos.add(salida);
 			}
-		
+		}else {
 			
-			ArrayList<Integer> camino = null;
 			colores.put(vertice, "amarillo");
 			Iterator adyacentes = this.grafo.obtenerAdyacentes(vertice);
 			
-			while(adyacentes.hasNext() && camino == null) {
+			while(adyacentes.hasNext()) {
 				int ady = (int) adyacentes.next();
+				
 				if(colores.get(ady).equals("blanco")) {
-
- DFS_Visit(ady, vDestino); 
-					 if (recorrido != null) {
-						 camino = new ArrayList<Integer>();
-						 camino.add(vertice);
-						 camino.addAll(recorrido);	 
-					 }
+					//Hago las modificaciones, llamado recursivo, y dsp deshago todo
+					solucionActual.add(ady);
+					colores.put(ady, "amarillo");
+					this.costo++;
+					
+					DFS_Visit(ady, solucionActual); 
+					
+					solucionActual.remove(solucionActual.size()-1);
+					colores.put(ady, "blanco");
+					this.costo--;
 				}
 			}
-			colores.put(vertice, "negro");
-		
-			return camino;
+		}
 	}
 }

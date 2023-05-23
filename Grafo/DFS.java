@@ -9,7 +9,7 @@ public class DFS {
 	private int tiempo;
 	private HashMap<Integer,String> colores;
 	private HashMap<Integer,Integer> descubrimiento;
-	private HashMap<Integer,Integer> finalizacion;
+	private ArrayList<Integer> respuesta;
 	private HashMap<Integer,Integer> verticesEncontrados;
 	private int orden;
 	
@@ -19,10 +19,11 @@ public class DFS {
 		this.descubrimiento = new HashMap<>();
 		this.tiempo = 0;
 		this.orden = 0;
+		this.respuesta = new ArrayList<Integer>();
 	}
 	
-	public HashMap DFS() {
-		//obtengo los vertices
+	public ArrayList<Integer> DFS() {
+		
 		Iterator vertices = this.grafo.obtenerVertices();
 		//los "pinto de blanco" en mi Map colores
 		while(vertices.hasNext()) {
@@ -35,16 +36,16 @@ public class DFS {
 		while(vertices.hasNext()) {
 			int verticeId = (int) vertices.next();
 			if(colores.get(verticeId).equals("blanco")) {
-				 ArrayList<Integer> recorrido = DFS_Visit(verticeId);
+				  DFS_Visit(verticeId);
 			}
 		}
-		return descubrimiento;
+		return respuesta;
 	}
 	
-	private ArrayList DFS_Visit(int vertice) {
+	private void DFS_Visit(int vertice) {
 		//lo pinto amarillo en colores y tiempo arranca en 1
 		colores.put(vertice, "amarillo");
-		
+		respuesta.add(vertice);
 		//verticesEncontrados.put(orden, vertice); //guardo cada uno
 		//System.out.println(vertice);
 		//descubrimiento va a ser el tiempo
@@ -57,7 +58,7 @@ public class DFS {
 			int ady = (int) adyacentes.next();
 			//si esta blanco = llamado recursivo (sirve para no llamarse sin fin en caso de ciclo
 			if(colores.get(ady).equals("blanco")) {
-				 ArrayList<Integer> recorrido = DFS_Visit(ady); //tngo q guardar resultado xq sino se pierde y nose si encontre ciclo
+				 DFS_Visit(ady); //tngo q guardar resultado xq sino se pierde y nose si encontre ciclo
 			}
 		}
 		//lo pinto de negro, sumo 1 al tiempo y lo guardo en finalizacion
@@ -187,3 +188,4 @@ public class DFS {
 	*/
 
 }
+

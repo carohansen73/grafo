@@ -28,20 +28,32 @@ public class Main {
 		
 		
 		
-//		DFS dfs = new DFS(grafo);
-//		HashMap resultBFS = dfs.DFS();
-		Caminos caminos = new Caminos(grafo, 10, 20, 3);
+		DFS dfs = new DFS(grafo);
+		ArrayList<Integer> resultDfs = dfs.DFS();
+		for ( int i = 0; i < resultDfs.size(); i++) {
+			System.out.println(resultDfs.get(i));
+		}
+		
+		/* CAMINO ANDA OK
+		Camino caminos = new Camino(grafo, 10, 25, 3);
 		ArrayList c = caminos.camino();
 		for ( int i = 0; i < c.size(); i++) {
 			System.out.println(c.get(i));
-			ArrayList res = (ArrayList) c.get(i);
 			
-			for(int j = 0; j < res.size();  j++) {
-				
-				System.out.println(res.get(j));
-			}
 			
 		}
+		*/
+		
+		/* BFD ANDA PERO NO SE SI EL ORDEN EN QUE RETORNA ES CORRECTO
+		BFS recorridoBfs = new BFS(grafo);
+		ArrayList recorrido = recorridoBfs.BFS_Forest();
+		
+		for ( int i = 0; i < recorrido.size(); i++) {
+			System.out.println(recorrido.get(i));
+		}
+		*/
+		
 	}
 
 }
+
