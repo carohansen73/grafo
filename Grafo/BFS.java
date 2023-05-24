@@ -18,6 +18,10 @@ public class BFS {
 		this.respuesta = new ArrayList<Integer>();
 	}
 	
+	/*
+	 * Complejidad O(n+m)
+	 * Donde n es la cantidad de vertices y m la cantidad de adyacentes que tenga cada vertice
+	 * */
 	public ArrayList<Integer> BFS_Forest() {
 		fila.clear();
 		

@@ -11,14 +11,26 @@ public class Arco<T> {
 		this.etiqueta = etiqueta;
 	}
 	
+	/*
+	 * Complejidad O(1)
+	 * Simplemente retorna una variable
+	 * */
 	public int getVerticeOrigen() {
 		return verticeOrigen;
 	}
 	
+	/*
+	 * Complejidad O(1)
+	 * Simplemente retorna una variable
+	 * */
 	public int getVerticeDestino() {
 		return verticeDestino;
 	}
 
+	/*
+	 * Complejidad O(1)
+	 * Simplemente retorna una variable
+	 * */
 	public T getEtiqueta() {
 		return etiqueta;
 	}

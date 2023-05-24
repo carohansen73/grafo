@@ -22,6 +22,10 @@ public class DFS {
 		this.respuesta = new ArrayList<Integer>();
 	}
 	
+	/*
+	 * Complejidad O(n+m)
+	 * Donde n representa el numero de vertices y m la cantidad de adyacentes que tenga cada vertice
+	 * */
 	public ArrayList<Integer> DFS() {
 		
 		Iterator vertices = this.grafo.obtenerVertices();
@@ -47,7 +51,6 @@ public class DFS {
 		colores.put(vertice, "amarillo");
 		respuesta.add(vertice);
 		//verticesEncontrados.put(orden, vertice); //guardo cada uno
-		//System.out.println(vertice);
 		//descubrimiento va a ser el tiempo
 		//descubrimiento.put(vertice,tiempo);
 		//descubrimiento.put(tiempo, vertice);
