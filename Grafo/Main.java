@@ -24,6 +24,8 @@ public class Main {
 		grafo.agregarArco(10, 25, "E");
 		grafo.agregarArco(20, 25, "F");
 		
+		System.out.print(grafo.cantidadArcos());
+		
 		/* ANDA OK
 		Iterator arcos = grafo.obtenerArcos();
 		while (arcos.hasNext()) {
