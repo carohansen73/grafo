@@ -1,10 +1,12 @@
-package Grafo;
+package Servicios;
 
+import Grafo.Grafo;
+import Grafo.GrafoDirigido;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Camino {
+public class ServicioCaminos {
 	private Grafo grafo;
 	private HashMap<Integer,String> colores;
 	private int verticeOrigen, verticeDestino;
@@ -12,7 +14,7 @@ public class Camino {
 	private int costoLimite;
 	private int costo;
 	
-	public Camino(Grafo grafo, int vOrigen, int vDestino,int costoLimite) {
+	public ServicioCaminos(Grafo grafo, int vOrigen, int vDestino,int costoLimite) {
 		this.grafo = grafo;
 		this.colores = new HashMap<>();
 		this.verticeOrigen = vOrigen;

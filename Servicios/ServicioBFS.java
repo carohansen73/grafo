@@ -1,17 +1,19 @@
-package Grafo;
+package Servicios;
 
+import Grafo.GrafoDirigido;
+import Grafo.Grafo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class BFS {
+public class ServicioBFS {
 	private Grafo grafo;
-	private HashMap<Integer, Boolean> visitado;
+	private HashMap<Integer, String> visitado;
 	LinkedList<Integer> fila;
 	ArrayList<Integer> respuesta;
 	
-	public BFS(Grafo grafo) {
+	public ServicioBFS(Grafo grafo) {
 		this.grafo = grafo;
 		this.visitado = new HashMap<>();
 		this.fila = new LinkedList<Integer>();
@@ -26,16 +28,16 @@ public class BFS {
 		fila.clear();
 		
 		Iterator vertices = this.grafo.obtenerVertices();
-		//No visitado
+		
 		while(vertices.hasNext()) {
 			int verticeId = (int) vertices.next();
-			visitado.put(verticeId, false);
+			visitado.put(verticeId, "NO");
 		}
 		
 		vertices = this.grafo.obtenerVertices();
 		while (vertices.hasNext()) {
 			int vertice = (int) vertices.next();
-			if(visitado.get(vertice).equals(false)) {
+			if(visitado.get(vertice).equals("NO")) {
 				BFS_Visit(vertice);
 			}
 		}
@@ -43,7 +45,7 @@ public class BFS {
 	}
 	
 	public void BFS_Visit(int vertice) {
-		visitado.put(vertice, true);
+		visitado.put(vertice, "SI");
 		fila.add(vertice);
 		respuesta.add(vertice);
 		
@@ -53,9 +55,9 @@ public class BFS {
 			
 			while (adyacentes.hasNext()) {
 				int ady = (int) adyacentes.next();
-				if(visitado.get(ady).equals(false)) {
+				if(visitado.get(ady).equals("NO")) {
 					respuesta.add(ady);
-					visitado.put(ady, true);
+					visitado.put(ady, "SI");
 					fila.add(ady);
 				}
 			}
