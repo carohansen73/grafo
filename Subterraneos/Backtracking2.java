@@ -37,6 +37,7 @@ public class Backtracking2 {
 		mejorSolucion = null;
 		Solucion solParcial = new Solucion();
 		
+
 		
 		Iterator arcos = grafo.obtenerArcos();
 		while(arcos.hasNext()) {
