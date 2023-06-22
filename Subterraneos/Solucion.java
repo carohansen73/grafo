@@ -1,11 +1,15 @@
 package Subterraneos;
+//minimum spanium tree
+//traveling salesman
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Grafo.Arco;
 import Grafo.Grafo;
 
 public class Solucion {
+	
 	private ArrayList listaSolucion;
 	int mts;
 	private ArrayList vertices;
@@ -22,9 +26,8 @@ public class Solucion {
 	}
 	*/
 	public void borrar(int vertice) {
-		int index = listaSolucion.indexOf(vertice);
-		listaSolucion.remove(index);
-		//System.out.println(" Borro vertice: "+vertice);
+		int index = vertices.indexOf(vertice);
+		this.vertices.remove(index);
 	}
 	
 	public ArrayList getListaSolucion() {
@@ -125,7 +128,7 @@ public class Solucion {
 	
 	
 	public void copiar(Solucion s) {
-		this.mts = s.getMts();
+		this.metros = s.getMts();
 		this.listaSolucion = (ArrayList) s.getList().clone();
 		this.vertices = (ArrayList) s.getVerticesSolucion().clone();
 	}
