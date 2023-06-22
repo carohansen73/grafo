@@ -3,13 +3,13 @@ package TP;
 import Grafo.GrafoDirigido;
 import Grafo.GrafoNoDirigido;
 import Subterraneos.Backtracking;
-
+import Subterraneos.Backtracking2;
 public class Main2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		GrafoDirigido grafo = new GrafoNoDirigido();
+		GrafoNoDirigido grafo = new GrafoNoDirigido();
 
 		grafo.agregarVertice(1);
 		grafo.agregarVertice(2);
@@ -18,7 +18,7 @@ public class Main2 {
 		
 		
 		/*Dataset2*/
-		/*
+		
 		grafo.agregarVertice(5);
 		grafo.agregarVertice(6);
 		
@@ -38,19 +38,20 @@ public class Main2 {
 		grafo.agregarArco(4,6,70);
 		grafo.agregarArco(6,5,10);
 		
-	*/
+	
 		
 		
 		/* dataset 1 v=1-4*/
+		/*
 		grafo.agregarArco(1, 2, 15);
 		grafo.agregarArco(1, 3, 20);
 		grafo.agregarArco(1, 4, 30);
 		grafo.agregarArco(2, 3, 15);
 		grafo.agregarArco(2, 4, 25);
 		grafo.agregarArco(3, 4, 50);
+		*/
 		
-		
-		Backtracking backtr = new Backtracking(grafo, 1);
+		Backtracking2 backtr = new Backtracking2(grafo, 1);
 		backtr.back();
 	}
 
