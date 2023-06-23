@@ -58,12 +58,12 @@ public class Backtracking2 {
 	
 	private void backtracking(Solucion solParcial, Iterator arcos) {
 		System.out.println("entra? " );
-		//if(!visitados.containsValue("no")) {
+		if(!visitados.containsValue("no")) {
 		//if(!arcos.hasNext()) {
 		//System.out.println(arcosVisitados );
 		//if(!arcosVisitados.containsValue("no")) {
 		//if(!arcos.hasNext()) {
-		if(esSolucion(solParcial)) {
+		//if(esSolucion(solParcial)) {
 			System.out.println("-metros : " + solParcial.getMts());
 			
 			if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts())) {
@@ -95,6 +95,7 @@ public class Backtracking2 {
 					
 					solParcial.borrarArco(arco);
 					solParcial.restarDistanciaArco(arco);
+					System.out.println("distranciaaa:" + solParcial.getMts());
 					visitados.replace(arco.getVerticeDestino(), "no");
 					visitados.replace(arco.getVerticeOrigen(), "no"); //si esta visitado x otro arco
 					arcosVisitados.replace(arcos,  "no");
