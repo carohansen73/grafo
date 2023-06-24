@@ -39,10 +39,14 @@ public class Greedy {
 	 * */
 	
 	public void greedy(Grafo grafo, int origen) {
+		
 		HashMap dist = new HashMap();
 		HashMap padre = new HashMap();
+		
+		// obtengo todos los vertices del grafo
 		Iterator vertices = grafo.obtenerVertices();
 		
+		// voy iterando en el 
 		while (vertices.hasNext()) {
 			int v =  (int) vertices.next();
 			dist.put(v, 555);
@@ -52,10 +56,14 @@ public class Greedy {
 		
 		ArrayList verticesConsiderados = new ArrayList();
 		
+		// mientras la cantidad de vertices a agregar al camino se menor que la cantidad de vertices del grafo continuar procesando
 		while(verticesConsiderados.size() <  grafo.cantidadVertices()) {
+			
+			// obtener los vertices mas cercanos del origen
 			int vertice/*u*/ = obtenerVerticeMasCercano(origen, dist, grafo, verticesConsiderados); // retorna el v mas cercano , no usado
 			verticesConsiderados.add(vertice);
 			
+			// obtengo los vertices adyacentes al actual
 			Iterator adyacentes = grafo.obtenerAdyacentes(vertice);
 			HashMap<Integer, Integer> adyacentesNoConsiderados = getAdyacentesNoConsiderados(vertice, grafo, verticesConsiderados);
 			
@@ -73,7 +81,10 @@ public class Greedy {
 				 * */
 				System.out.println("dist get vertice " + dist.get(vertice) + " distady: " + distAdy);
 				
+				// mientras la distancia del vertice mas la distancia del vertice adyacente se menor que la dist del adyacente
 				if(((int) dist.get(vertice) + distAdy ) < (int) dist.get(ady)) { //ver como hago la cuenta
+					
+					// sumo la distancia del vertice actual mas el adyacente al que voy y lo actualizo en el camino
 					int nuevaDistancia = (int) dist.get(vertice) + distAdy ;
 					System.out.println("distancia de " + ady + " es: " + nuevaDistancia);
 					dist.replace(ady, nuevaDistancia );//obtener la distancia antes
@@ -93,6 +104,7 @@ public class Greedy {
 		int distMenor = Integer.MAX_VALUE;
 		int resp = 0;
 		
+		// mientras tenga arco itero
 		while(arcos.hasNext()) {
 			Arco a = (Arco) arcos.next();
 			if(((int)a.getEtiqueta() < distMenor) && !vertices.contains(a.getVerticeDestino())) {
@@ -104,14 +116,18 @@ public class Greedy {
 		return resp;
 	}
 	
+	// obtengo todos los adyacentes del vertice actual
 	private HashMap getAdyacentesNoConsiderados(int actual,Grafo g, ArrayList vConsiderados){
+		
 		//ArrayList resp = new ArrayList();
 		Iterator arcos = g.obtenerArcos(actual);
 		HashMap<Integer, Integer> resp = new HashMap();
 		
 		while (arcos.hasNext()) {
     	    Arco sig =  (Arco) arcos.next();
+    	    // verifico si contiene el vertice destino en los vertices visitados
     	    if(!vConsiderados.contains(sig.getVerticeDestino())) {
+    	    	// si no lo contiene agrego su distancia
     	    	resp.put((Integer) sig.getVerticeDestino(), (Integer) sig.getEtiqueta());
     	    }
     	}
