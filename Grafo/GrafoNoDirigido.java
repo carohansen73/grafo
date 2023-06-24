@@ -1,6 +1,5 @@
 package Grafo;
 
-
 public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 
 	@Override

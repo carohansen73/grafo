@@ -18,7 +18,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	/*
 	 * Complejidad  O(1) 
 	 * Es una complejidad constante ya que los metodos containsKey y put son constantes y no dependen 
-	 * del tamaÃ±o o de ningun factor externo.
+	 * del tamaño o de ningun factor externo.
 	 * */
 	@Override
 	public void agregarVertice(int verticeId) {
@@ -46,25 +46,18 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	/*
 	 * Complejidad constante O(1)
-	 * ya que los mÃ©todos get y put son constantes, y el mÃ©todo contieneVertice tambiÃ©n es constante.
+	 * ya que los métodos get y put son constantes, y el método contieneVertice también es constante.
 	 * */
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
 		if(this.contieneVertice(verticeId1) && this.contieneVertice(verticeId2)) {
 			vertices.get(verticeId1).put(verticeId2, etiqueta);
-			Arco arco = this.obtenerArco(verticeId1, verticeId2);
-			T eti = (T) arco.getEtiqueta();
-			int desde = arco.getVerticeOrigen();
-			int hasta = arco.getVerticeDestino();
-			System.out.println("Arco desde "+desde+" hasta "+ hasta+ " etiqueta= "+etiqueta);
-		}else {
-			System.out.print("No agrego el arco");
 		}
 	}
 
 	/*
 	 * Complejidad constante O(1)
-	 * ya que la complejidad se mantiene constante, sin importar el tamaÃ±o del HashMap.
+	 * ya que la complejidad se mantiene constante, sin importar el tamaño del HashMap.
 	 * */
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
@@ -113,7 +106,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	/*
 	 * Complejidad O(1)
-	 * Debido a que el Hashmap tiene un contador que retorna el tamaÃ±o del mismo.
+	 * Debido a que el Hashmap tiene un contador que retorna el tamaño del mismo.
 	 * */
 	@Override
 	public int cantidadVertices() {
@@ -137,7 +130,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	/*
 	 * Complejidad O(n)
 	 * Donde n es el numero de vertices contenidos en el HashMap ya que voy recorriendo los vertices 
-	 * y agregandolos al resultado, lo que hace que el tiempo de ejecuciÃ³n dependa del numero de vertices almacenados.
+	 * y agregandolos al resultado, lo que hace que el tiempo de ejecución dependa del numero de vertices almacenados.
 	 * */
 	@Override
 	public Iterator<Integer> obtenerVertices() {
@@ -153,7 +146,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	/*
 	 * Complejidad O(n)
 	 * Donde n es el numero de vertices adyacentes al vertice que se recibe por parametro, por lo tanto la complejidad
-	 * va a depender de la cantidad de adyacentes que Ã©ste tenga.
+	 * va a depender de la cantidad de adyacentes que éste tenga.
 	 * */
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
@@ -198,16 +191,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 		//creo una lista para ir almacenando y retornar
-		LinkedList<Arco<T>> resultado = new LinkedList<Arco<T>>();
-		
-		//me devuelve todas las lineas del segundo hashMap
-		for(Entry<Integer, T> info : vertices.get(verticeId).entrySet()) {
-			//creo los arcos  los agrego a la lista
-			Arco<T> arco = new Arco(verticeId, info.getKey(), info.getValue());
-			resultado.add(arco);
-		}
+		LinkedList<Arco<T>> arcos = new LinkedList<Arco<T>>();
+		for(int i: vertices.keySet()) {
+			for(int j: vertices.get(i).keySet()) {
+				//creo los arcos  los agrego a la lista
+				Arco<T> tmp = new Arco<T>(i,j,vertices.get(i).get(j));
+				arcos.add(tmp);
+			}
+		}		
 		//lo retorno como iterator
-		return resultado.iterator();
+		return arcos.iterator();
 	}
 
 	

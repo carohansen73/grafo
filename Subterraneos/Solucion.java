@@ -1,135 +1,111 @@
 package Subterraneos;
+//minimum spanium tree
+//traveling salesman
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Grafo.Arco;
 import Grafo.Grafo;
 
 public class Solucion {
+	
 	private ArrayList listaSolucion;
-	int mts;
+	private int metros;
 	private ArrayList vertices;
+	
+	
 	
 	public Solucion() {
 		this.listaSolucion = new ArrayList();
-		this.vertices = new ArrayList();
-		this.mts = 0;
-	}
-		
-	/*public void agregar(int vertice) {
-		listaSolucion.add(vertice);
-		//System.out.println(" Agrego vertice: "+vertice);
-	}
-	*/
-	public void borrar(int vertice) {
-		int index = listaSolucion.indexOf(vertice);
-		listaSolucion.remove(index);
-		//System.out.println(" Borro vertice: "+vertice);
+		this.vertices= new ArrayList();
+		this.metros = 0;
 	}
 	
-	public ArrayList getListaSolucion() {
-		return this.listaSolucion;
+	
+	public void agregar(int vertice) {
+		this.vertices.add(vertice);
 	}
 	
-/*	public void agregarArco(Arco a) {
+	public void agregarArco(Arco a) {
 		System.out.println("entra peroo no agrega arco "+a);
 		if(!(vertices.contains(a.getVerticeDestino()) && vertices.contains(a.getVerticeOrigen()))) {
-			System.out.println(" Agrego arco: "+a);
+			System.out.println(" Agrego vertice: "+a);
 			this.listaSolucion.add(a);
+			sumarDistanciaArco(a);
 			if(!vertices.contains(a.getVerticeOrigen())){
 				this.vertices.add(a.getVerticeOrigen());
-				System.out.println(" Agrego vertice orig: "+a.getVerticeOrigen());
 			}
 			if(!vertices.contains(a.getVerticeDestino())){
 				this.vertices.add(a.getVerticeDestino());
-				System.out.println(" Agrego vertice dest: "+a.getVerticeDestino());
 			}	
 		}
+		
 	}
 	
-		
-	public void borrarArco(Arco a) {
-		if(listaSolucion.contains(a)) {
-			int index = listaSolucion.indexOf(a);
-			this.listaSolucion.remove(index);
-			System.out.println(" borro arco: "+a);
-			if(vertices.contains(a.getVerticeDestino())){
-				int i = vertices.indexOf(a.getVerticeDestino());
-				this.vertices.remove(i);
-				System.out.println(" borro vertice dest: "+a.getVerticeDestino());
-			}	
-			//ver porque borro origen y no se tiene que borrar!!!
-			if(vertices.contains(a.getVerticeOrigen())){
-				int i = vertices.indexOf(a.getVerticeOrigen());
-				this.vertices.remove(i);
-				System.out.println(" borro vertice dest: "+a.getVerticeDestino());
-			}	
-		}
-		
-		
-	}
-*/
-	
-	/* OTRA PRUEBAAAA*/
-	
-		public void agregarArco(Arco a) {
-			System.out.println(" Agrego arco: "+a);
-			this.listaSolucion.add(a);
-
-		}
-	
-		public void borrarArco(Arco a) {
-			if(listaSolucion.contains(a)) {
-				int index = listaSolucion.indexOf(a);
-				this.listaSolucion.remove(index);
-				System.out.println(" borro arco: "+a);
-				
-			}
-			
-			
-		}
-	
-		
 	public ArrayList getVerticesSolucion() {
 		return this.vertices;
 	}
 	
-		
-	public int getMts() {
-		return this.mts;
+	public void borrarArco(Arco a) {
+		int index = listaSolucion.indexOf(a);
+		this.listaSolucion.remove(index);
+		restarDistanciaArco(a);
+		if(vertices.contains(a.getVerticeDestino())){
+			borrar(a.getVerticeDestino());
+		}	
 	}
 	
-	/*
-	public void agregarMts(Grafo grafo,int vOrigen,int vDestino) {
-		Arco actual = grafo.obtenerArco(vOrigen, vDestino);
-		int distancia = (int) actual.getEtiqueta();
-		mts+=distancia;
+	public void borrar(int vertice) {
+		int index = vertices.indexOf(vertice);
+		this.vertices.remove(index);
 	}
-	*/
-	/*
-	public void restarMts(Grafo grafo,int vOrigen,int vDestino) {
-		Arco actual = grafo.obtenerArco(vOrigen, vDestino);
-		int distancia = (int) actual.getEtiqueta();
-		mts-=distancia;
+	
+	public int getMts() {
+		return this.metros;
 	}
-	*/
+	
+//	public void setMetros(int m) {
+//		this.metros = m;
+//	}
+	
+	public ArrayList getList() {
+		return this.listaSolucion;
+	}
+	
+//	private void setLista(ArrayList l) {
+//		this.listaSolucion = (ArrayList) l.clone();
+//	}
+//	
+/*
+	public void agregarMts(Grafo grafo,int actual,int ady) {
+		Arco a = grafo.obtenerArco(actual,ady);
+		int dist = (int) a.getEtiqueta();
+		metros += dist;
+	}
+*/	
+	
 	public void sumarDistanciaArco(Arco a) {
 		int dist = (int) a.getEtiqueta();
-		mts += dist;
+		metros += dist;
+		System.out.println("sumo dist " + dist + ". Totl= "+ metros);
 	}
 	
+/*	public void restarMts(Grafo grafo,int actual,int ady) {
+		Arco a = grafo.obtenerArco(actual,ady);
+		int dist = (int) a.getEtiqueta();
+		metros -= dist;
+	}
+*/	
 	public void restarDistanciaArco(Arco a) {
 		int dist = (int) a.getEtiqueta();
-		mts -= dist;
+		metros -= dist;
+		System.out.println("Resto dist " + dist + ". Totl= "+ metros);
 	}
-	
 	
 	public void copiar(Solucion s) {
-		this.mts = s.getMts();
-		this.listaSolucion = (ArrayList) s.getListaSolucion().clone();
-		this.vertices = (ArrayList) s.getVerticesSolucion().clone();
+		this.metros = s.getMts();
+		this.listaSolucion = (ArrayList) s.getList().clone();
 	}
-
-
-	//public void copiar
+	
 }

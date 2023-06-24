@@ -15,6 +15,7 @@ public class Backtracking2 {
 	private HashMap visitados;
 	private Solucion mejorSolucion;
 	private HashMap arcosVisitados;
+	private UnionFind union;
 
 	
 	public Backtracking2(Grafo grafo, int origen) {
@@ -23,6 +24,7 @@ public class Backtracking2 {
 		this.visitados = new HashMap();
 		this.arcosVisitados = new HashMap();
 		mejorSolucion = new Solucion();
+		this.union = new UnionFind(4);
 	}
 	
 	
@@ -34,10 +36,9 @@ public class Backtracking2 {
 			visitados.put(v, "no");
 		}
 		
+		
 		mejorSolucion = null;
 		Solucion solParcial = new Solucion();
-		
-
 		
 		Iterator arcos = grafo.obtenerArcos();
 		while(arcos.hasNext()) {
@@ -46,31 +47,29 @@ public class Backtracking2 {
 		}
 		
 		arcos=grafo.obtenerArcos();
-		//Arco a = (Arco) arcos.next();
+		Arco a = (Arco) arcos.next();
 		//visitados.replace(a.getVerticeOrigen(), "si");
-		//arcos=grafo.obtenerArcos();
 		
+		arcos=grafo.obtenerArcos();
 		this.backtracking( solParcial, arcos);
-		this.imprimirSolucion();
+		//this.imprimirSolucion();
 		return mejorSolucion;
 	}
 	
 	
 	private void backtracking(Solucion solParcial, Iterator arcos) {
 		System.out.println("entra? " );
-		if(!visitados.containsValue("no")) {
+		//if(!visitados.containsValue("no")) {
 		//if(!arcos.hasNext()) {
 		//System.out.println(arcosVisitados );
 		//if(!arcosVisitados.containsValue("no")) {
-		//if(!arcos.hasNext()) {
-		//if(esSolucion(solParcial)) {
+		if(!arcos.hasNext()) {
 			System.out.println("-metros : " + solParcial.getMts());
 			
 			if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts())) {
 				
 				mejorSolucion = new Solucion();
 				mejorSolucion.copiar(solParcial);
-				
 				System.out.println("-mejor solucion metros : " + mejorSolucion.getMts());
 			}
 		}else {
@@ -85,20 +84,21 @@ public class Backtracking2 {
 				//if(visitados.get(ady).equals("no")){
 					
 					solParcial.agregarArco(arco);
-					solParcial.sumarDistanciaArco(arco);
+					//solParcial.sumarDistanciaArco(arco);
 					visitados.replace(arco.getVerticeDestino(), "si");
 					visitados.replace(arco.getVerticeOrigen(), "si");
 					arcosVisitados.replace(arco, "si");
+					//union.union(arco.getVerticeOrigen(), arco.getVerticeDestino());
 					arcos.remove();
 					
 					backtracking(solParcial, arcos);
 					
 					solParcial.borrarArco(arco);
-					solParcial.restarDistanciaArco(arco);
-					System.out.println("distranciaaa:" + solParcial.getMts());
+					//solParcial.restarDistanciaArco(arco);
 					visitados.replace(arco.getVerticeDestino(), "no");
-					visitados.replace(arco.getVerticeOrigen(), "no"); //si esta visitado x otro arco
+					//visitados.replace(arco.getVerticeOrigen(), "no"); si no saco el origen nunca se queda no visitado
 					arcosVisitados.replace(arcos,  "no");
+					
 					backtracking(solParcial, arcos);
 					
 				//}
@@ -108,7 +108,7 @@ public class Backtracking2 {
 	}
 	
 	public void imprimirSolucion() {
-		ArrayList listaSolucion = this.mejorSolucion.getListaSolucion();
+		ArrayList listaSolucion = this.mejorSolucion.getList();
 		int metrosTotal = this.mejorSolucion.getMts();
 		
 		System.out.println("Metros solucion: " + metrosTotal);
@@ -118,17 +118,6 @@ public class Backtracking2 {
 		}			
 	}
 	
-	private boolean esSolucion(Solucion s) {
-		ArrayList vertices = (ArrayList) grafo.obtenerVertices();
-		ArrayList<Arco> listaSolucion = s.getListaSolucion();
-		ArrayList<Integer> verticesEnSolucion = new ArrayList();
-		for (Arco  i: listaSolucion) {
-			verticesEnSolucion.add(i.getVerticeOrigen());
-			verticesEnSolucion.add(i.getVerticeDestino());
-		}
-		
-		return listaSolucion.containsAll(vertices);
-	}
 	
 	
 	

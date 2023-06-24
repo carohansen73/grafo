@@ -11,21 +11,25 @@ import Grafo.Arco;
 public class Greedy {
 	private int max =  Integer.MAX_VALUE;
 	
+	public Greedy() {
+		this.max = Integer.MAX_VALUE;
+	}
+	
 	/*
-	 * function Dijkstra(Grafo G, VÃ©rtice origen):
-		for each VÃ©rtice v en G: // InicializaciÃ³n
-		// La distancia inicial desde el origen al vÃ©rtice v
+	 * function Dijkstra(Grafo G, Vértice origen):
+		for each Vértice v en G: // Inicialización
+		// La distancia inicial desde el origen al vértice v
 								// se establece en infinito
-		padre[v] := indefinido 	// El nodo anterior en el camino Ã³ptimo desde el origen
+		padre[v] := indefinido 	// El nodo anterior en el camino óptimo desde el origen
 		dist[origen] := 0 		// Distancia desde el origen hasta el origen
 		
-		S := vacÃ­o // S serÃ¡ el conjunto de vÃ©rtices ya considerados
-		while (G.VÃ©rtices â€“ S) no es vacÃ­o: // loop principal
+		S := vacío // S será el conjunto de vértices ya considerados
+		while (G.Vértices – S) no es vacío: // loop principal
 		
-		u := vÃ©rtice en (G.VÃ©rtices â€“ S) con menor valor en dist[ ]
+		u := vértice en (G.Vértices – S) con menor valor en dist[ ]
 		S := S U {u}           //lo agrego a S
 		
-		for each v en (G.VÃ©rtices â€“ S) que sea adyacente a u: //Relajar(u) r(u)
+		for each v en (G.Vértices – S) que sea adyacente a u: //Relajar(u) r(u)
 		
 		if (dist[u] + dist_entre(u, v)) < dist[v])
 		
@@ -34,14 +38,14 @@ public class Greedy {
 		return padre[ ]
 	 * */
 	
-	public HashMap greedy(Grafo grafo, int origen) {
+	public void greedy(Grafo grafo, int origen) {
 		HashMap dist = new HashMap();
 		HashMap padre = new HashMap();
 		Iterator vertices = grafo.obtenerVertices();
 		
 		while (vertices.hasNext()) {
 			int v =  (int) vertices.next();
-			dist.put(v, max);
+			dist.put(v, 555);
 			padre.put(v, 0); // 0 o -1?
 		}
 		dist.put(origen, 0);
@@ -53,17 +57,33 @@ public class Greedy {
 			verticesConsiderados.add(vertice);
 			
 			Iterator adyacentes = grafo.obtenerAdyacentes(vertice);
-			Iterator adyacentesNoConsiderados = getAdyacentesNoConsiderados(adyacentes, verticesConsiderados);
+			HashMap<Integer, Integer> adyacentesNoConsiderados = getAdyacentesNoConsiderados(vertice, grafo, verticesConsiderados);
 			
-			while(adyacentesNoConsiderados.hasNext()) {
-				int ady/*v*/ = (int) adyacentesNoConsiderados.next();
+			
+			//for(Integer a: adyacentesNoConsiderados.keySet()) {
+			//int ady/*v*/ = (int) adyacentesNoConsiderados.get(a);
+			adyacentesNoConsiderados.forEach((ady, distAdy) -> {
 				
-				if(distanciaEsMenor()) { //ver como hago la cuenta
-					dist.put(ady, distancia)//obtener la distancia antes
+				// resultado.add(key);
+				
+				/*
+				 * if (dist[u] + dist_entre(u, v)) < dist[v])
+						dist[v] := dist[u] + dist_entre(u, v)
+						padre[v] := u
+				 * */
+				System.out.println("dist get vertice " + dist.get(vertice) + " distady: " + distAdy);
+				
+				if(((int) dist.get(vertice) + distAdy ) < (int) dist.get(ady)) { //ver como hago la cuenta
+					int nuevaDistancia = (int) dist.get(vertice) + distAdy ;
+					System.out.println("distancia de " + ady + " es: " + nuevaDistancia);
+					dist.replace(ady, nuevaDistancia );//obtener la distancia antes
 					padre.put(ady, vertice);
 				}//if
-			}//while
+			//}//while
+			 });
 		}//while
+		System.out.println("distancias " + dist);
+		System.out.println("padres: " + padre);
 	}
 	
 	//ver xq ahora no es v destino porque es no dirigido!!!
@@ -84,36 +104,19 @@ public class Greedy {
 		return resp;
 	}
 	
-	private Iterator getAdyacentesNoConsiderados(Iterator adys, ArrayList vConsiderados){
-		ArrayList resp = new ArrayList();
+	private HashMap getAdyacentesNoConsiderados(int actual,Grafo g, ArrayList vConsiderados){
+		//ArrayList resp = new ArrayList();
+		Iterator arcos = g.obtenerArcos(actual);
+		HashMap<Integer, Integer> resp = new HashMap();
 		
-		while (adys.hasNext()) {
-    	    int sig = (int) adys.next();
-    	    if(!vConsiderados.contains(sig)) {
-    	    	resp.add(sig);
+		while (arcos.hasNext()) {
+    	    Arco sig =  (Arco) arcos.next();
+    	    if(!vConsiderados.contains(sig.getVerticeDestino())) {
+    	    	resp.put((Integer) sig.getVerticeDestino(), (Integer) sig.getEtiqueta());
     	    }
     	}
-		return resp.iterator();
+		return resp;
 	}
 	
-	
-	public static void burbujeo(int[] arreglo) {
-		int i, j, aux;
-	
-		/*va intercambindo el elem mas grande al final,
-		 * luegoo recorre hasta el anteultimo, hasta el antepenultimo, etc
-		 * hasta llegar a recurrer los primeros 2 elem*/
-		for(i=0; i < arreglo.length; i++) {
-			for (j = 0; j < arreglo.length; j++) {
-				
-				if (arreglo[j] > arreglo[j+1]) {
-					aux = arreglo[j+1];
-					arreglo[j+1] = arreglo[j];
-					arreglo[j] = aux;
-				}
-				
-			}
-		}
-	}
 
 }

@@ -53,6 +53,13 @@ public class Main2 {
 		
 		Backtracking2 backtr = new Backtracking2(grafo, 1);
 		backtr.back();
+		
+		
+		/*
+		Greedy greedy = new Greedy();
+		greedy.greedy(grafo, 1);
+		*/
+
 	}
 
 }
