@@ -22,17 +22,23 @@ public class Solucion {
 		this.metros = 0;
 	}
 	
-	
+	// agrega un nuevo vertice a la lista de vertices del grafo a recorrer
 	public void agregar(int vertice) {
 		this.vertices.add(vertice);
 	}
 	
+	// agrega un nuevo arco
 	public void agregarArco(Arco a) {
+		
 		System.out.println("entra peroo no agrega arco "+a);
+		
+		// si el vertice destino no esta en el conjunto de vertices y
 		if(!(vertices.contains(a.getVerticeDestino()) && vertices.contains(a.getVerticeOrigen()))) {
 			System.out.println(" Agrego vertice: "+a);
+			// lo agrego al conjunto solucion y sumo su distancia
 			this.listaSolucion.add(a);
 			sumarDistanciaArco(a);
+			
 			if(!vertices.contains(a.getVerticeOrigen())){
 				this.vertices.add(a.getVerticeOrigen());
 			}
@@ -43,24 +49,33 @@ public class Solucion {
 		
 	}
 	
+	// retorna la lista de vertices que voy visitando
 	public ArrayList getVerticesSolucion() {
 		return this.vertices;
 	}
 	
+	// borra el arco de mi solucion
 	public void borrarArco(Arco a) {
+		
+		//primero chequeo si esta en mi lista solucion
 		int index = listaSolucion.indexOf(a);
-		this.listaSolucion.remove(index);
-		restarDistanciaArco(a);
-		if(vertices.contains(a.getVerticeDestino())){
-			borrar(a.getVerticeDestino());
-		}	
+		if (index) {
+			// Si esta lo saco porque no me sirve para mi solucion
+			this.listaSolucion.remove(index);
+			restarDistanciaArco(a);
+			if(vertices.contains(a.getVerticeDestino())){
+				borrar(a.getVerticeDestino());
+			}
+		}
 	}
 	
+	// lo borro de mi lista de vertices
 	public void borrar(int vertice) {
 		int index = vertices.indexOf(vertice);
 		this.vertices.remove(index);
 	}
 	
+	// devuelve los metros 
 	public int getMts() {
 		return this.metros;
 	}
@@ -69,6 +84,7 @@ public class Solucion {
 //		this.metros = m;
 //	}
 	
+	// retorna mi lista de arcos con el camino actual minimo
 	public ArrayList getList() {
 		return this.listaSolucion;
 	}
@@ -85,6 +101,7 @@ public class Solucion {
 	}
 */	
 	
+	// suma la distancia que vo del camino
 	public void sumarDistanciaArco(Arco a) {
 		int dist = (int) a.getEtiqueta();
 		metros += dist;
@@ -103,6 +120,7 @@ public class Solucion {
 		System.out.println("Resto dist " + dist + ". Totl= "+ metros);
 	}
 	
+	// reemplaza el camino por una solucion mejor que seria el camino mas corto al que esta guardado
 	public void copiar(Solucion s) {
 		this.metros = s.getMts();
 		this.listaSolucion = (ArrayList) s.getList().clone();
