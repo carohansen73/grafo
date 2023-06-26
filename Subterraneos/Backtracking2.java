@@ -16,7 +16,7 @@ public class Backtracking2 {
 	private HashMap visitados;
 	private Solucion mejorSolucion;
 	private HashMap arcosVisitados;
-	private UnionFind union;
+	//private UnionFind union;
 
 	
 	public Backtracking2(GrafoNoDirigido grafo, int origen) {
@@ -25,13 +25,13 @@ public class Backtracking2 {
 		this.visitados = new HashMap();
 		this.arcosVisitados = new HashMap();
 		mejorSolucion = new Solucion();
-		this.union = new UnionFind(4);
+		
 	}
 	
 	
 	public Solucion back() {
 		Iterator vertices = grafo.obtenerVertices();
-		
+		UnionFind union = new UnionFind(grafo.cantidadVertices());
 		while(vertices.hasNext()) {
 			int v = (int) vertices.next();
 			visitados.put(v, "no");
@@ -52,19 +52,22 @@ public class Backtracking2 {
 		//visitados.replace(a.getVerticeOrigen(), "si");
 		
 		arcos=grafo.obtenerArcos();
-		this.backtracking( solParcial, arcos);
+		this.backtracking( solParcial, arcos, union);
 		this.imprimirSolucion();
 		return mejorSolucion;
 	}
 	
 	
-	private void backtracking(Solucion solParcial, Iterator arcos) {
+	private void backtracking(Solucion solParcial, Iterator arcos, UnionFind union) {
 		System.out.println("entra? " );
 		//if(!visitados.containsValue("no")) {
 		//if(!arcos.hasNext()) {
 		//System.out.println(arcosVisitados );
 		//if(!arcosVisitados.containsValue("no")) {
-		if(!arcos.hasNext() && !visitados.containsValue("no") ) {
+		if(!arcos.hasNext()) {
+			if( union.size() == 1 ) {
+			 
+			 System.out.println("-unioooonn : " + union.size());
 			System.out.println("-metros : " + solParcial.getMts());
 			
 		
@@ -74,39 +77,24 @@ public class Backtracking2 {
 					mejorSolucion.copiar(solParcial);
 					System.out.println("-mejor solucion metros : " + mejorSolucion.getMts());
 				}
-			
+		}
 		}else {
 			
-			//Iterator adyacentes = grafo.obtenerAdyacentes(actual);
-			while(arcos.hasNext()) {
-			
-				//int ady = (int) adyacentes.next();
 				Arco arco = (Arco) arcos.next();
 				
-				/* if(!solParcial.contains(ady)) {} */
-				//if(visitados.get(ady).equals("no")){
-					
-					solParcial.agregarArco(arco);
-					//solParcial.sumarDistanciaArco(arco);
-					visitados.replace(arco.getVerticeDestino(), "si");
-					visitados.replace(arco.getVerticeOrigen(), "si");
-					arcosVisitados.replace(arco, "si");
-					//union.union(arco.getVerticeOrigen(), arco.getVerticeDestino());
-					arcos.remove();
-					
-					backtracking(solParcial, arcos);
-					
-					solParcial.borrarArco(arco);
-					//solParcial.restarDistanciaArco(arco);
-					visitados.replace(arco.getVerticeDestino(), "no");
-					//visitados.replace(arco.getVerticeOrigen(), "no"); //si no saco el origen nunca se queda no visitado
-					arcosVisitados.replace(arcos,  "no");
-					
-					backtracking(solParcial, arcos);
-					
-				//}
+				UnionFind tmp = new UnionFind(grafo.cantidadVertices());
+				tmp.copiarUnion(union);
+				solParcial.agregarArco(arco, union);
+				union.Union(arco.getVerticeOrigen()-1, arco.getVerticeDestino()-1);
+				arcos.remove(); //indiceeeeeeeeeeeeeeeeeeee
 				
-				}//while ady
+				backtracking(solParcial, arcos, union);
+				
+				solParcial.borrarArco(arco);
+				
+				backtracking(solParcial, arcos, tmp);
+				union.copiarUnion(tmp);
+			
 		}//else
 	}
 	

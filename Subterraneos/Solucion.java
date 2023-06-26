@@ -28,12 +28,12 @@ public class Solucion {
 	}
 	
 	// agrega un nuevo arco
-	public void agregarArco(Arco a) {
+	public void agregarArco(Arco a, UnionFind union) {
 		
 		System.out.println("entra peroo no agrega arco "+a);
 		
 		// si el vertice destino no esta en el conjunto de vertices y
-		if(!(vertices.contains(a.getVerticeDestino()) && vertices.contains(a.getVerticeOrigen()))) {
+		if( !(union.Find(a.getVerticeOrigen() -1)== union.Find(a.getVerticeDestino() -1) )) {
 			System.out.println(" Agrego vertice: "+a);
 			// lo agrego al conjunto solucion y sumo su distancia
 			this.listaSolucion.add(a);

@@ -89,12 +89,9 @@ public class Backtracking {
 		System.out.println("Lista solucion: ");
 		for(Object v:listaSolucion) {
 			System.out.println(v);
-		}
-		
-		
-				
+		}			
 	}
 	
 	
-
 }
+
