@@ -16,20 +16,20 @@ public class Greedy {
 	}
 	
 	/*
-	 * function Dijkstra(Grafo G, Vértice origen):
-		for each Vértice v en G: // Inicialización
-		// La distancia inicial desde el origen al vértice v
+	 * function Dijkstra(Grafo G, VÃ©rtice origen):
+		for each VÃ©rtice v en G: // InicializaciÃ³n
+		// La distancia inicial desde el origen al vÃ©rtice v
 								// se establece en infinito
-		padre[v] := indefinido 	// El nodo anterior en el camino óptimo desde el origen
+		padre[v] := indefinido 	// El nodo anterior en el camino Ã³ptimo desde el origen
 		dist[origen] := 0 		// Distancia desde el origen hasta el origen
 		
-		S := vacío // S será el conjunto de vértices ya considerados
-		while (G.Vértices – S) no es vacío: // loop principal
+		S := vacÃ­o // S serÃ¡ el conjunto de vÃ©rtices ya considerados
+		while (G.VÃ©rtices â€“ S) no es vacÃ­o: // loop principal
 		
-		u := vértice en (G.Vértices – S) con menor valor en dist[ ]
+		u := vÃ©rtice en (G.VÃ©rtices â€“ S) con menor valor en dist[ ]
 		S := S U {u}           //lo agrego a S
 		
-		for each v en (G.Vértices – S) que sea adyacente a u: //Relajar(u) r(u)
+		for each v en (G.VÃ©rtices â€“ S) que sea adyacente a u: //Relajar(u) r(u)
 		
 		if (dist[u] + dist_entre(u, v)) < dist[v])
 		

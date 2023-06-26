@@ -56,10 +56,10 @@ public class Solucion {
 	
 	// borra el arco de mi solucion
 	public void borrarArco(Arco a) {
-		
+		int index = -1;
 		//primero chequeo si esta en mi lista solucion
-		int index = listaSolucion.indexOf(a);
-		if (index) {
+		index = listaSolucion.indexOf(a);
+		if (index > -1) {
 			// Si esta lo saco porque no me sirve para mi solucion
 			this.listaSolucion.remove(index);
 			restarDistanciaArco(a);

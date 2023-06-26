@@ -1,5 +1,9 @@
 package TP;
 
+import java.util.Iterator;
+import Subterraneos.Greedy2;
+
+
 import Grafo.GrafoDirigido;
 import Grafo.GrafoNoDirigido;
 import Subterraneos.Backtracking;
@@ -51,15 +55,21 @@ public class Main2 {
 		grafo.agregarArco(3, 4, 50);
 		*/
 		
+		/*
 		Backtracking2 backtr = new Backtracking2(grafo, 1);
 		backtr.back();
-		
-		
-		/*
-		Greedy greedy = new Greedy();
-		greedy.greedy(grafo, 1);
 		*/
-
+		/*
+		Iterator arcos = grafo.obtenerArcos();
+		while(arcos.hasNext()) {
+			System.out.println(arcos.next());
+		}
+		*/
+		
+		Greedy2 gr = new Greedy2(grafo);
+		gr.Greedy();
+		
+		
 	}
 
 }

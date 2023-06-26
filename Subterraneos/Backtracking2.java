@@ -7,18 +7,19 @@ import java.util.Iterator;
 
 import Grafo.Arco;
 import Grafo.Grafo;
+import Grafo.GrafoNoDirigido;
 
 public class Backtracking2 {
 
 	private int origen;
-	private Grafo grafo;
+	private GrafoNoDirigido grafo;
 	private HashMap visitados;
 	private Solucion mejorSolucion;
 	private HashMap arcosVisitados;
 	private UnionFind union;
 
 	
-	public Backtracking2(Grafo grafo, int origen) {
+	public Backtracking2(GrafoNoDirigido grafo, int origen) {
 		this.grafo = grafo;
 		this.origen = origen;
 		this.visitados = new HashMap();
@@ -52,7 +53,7 @@ public class Backtracking2 {
 		
 		arcos=grafo.obtenerArcos();
 		this.backtracking( solParcial, arcos);
-		//this.imprimirSolucion();
+		this.imprimirSolucion();
 		return mejorSolucion;
 	}
 	
@@ -63,15 +64,17 @@ public class Backtracking2 {
 		//if(!arcos.hasNext()) {
 		//System.out.println(arcosVisitados );
 		//if(!arcosVisitados.containsValue("no")) {
-		if(!arcos.hasNext()) {
+		if(!arcos.hasNext() && !visitados.containsValue("no") ) {
 			System.out.println("-metros : " + solParcial.getMts());
 			
-			if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts())) {
-				
-				mejorSolucion = new Solucion();
-				mejorSolucion.copiar(solParcial);
-				System.out.println("-mejor solucion metros : " + mejorSolucion.getMts());
-			}
+		
+				if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts()) ) {
+					
+					mejorSolucion = new Solucion();
+					mejorSolucion.copiar(solParcial);
+					System.out.println("-mejor solucion metros : " + mejorSolucion.getMts());
+				}
+			
 		}else {
 			
 			//Iterator adyacentes = grafo.obtenerAdyacentes(actual);
@@ -96,7 +99,7 @@ public class Backtracking2 {
 					solParcial.borrarArco(arco);
 					//solParcial.restarDistanciaArco(arco);
 					visitados.replace(arco.getVerticeDestino(), "no");
-					//visitados.replace(arco.getVerticeOrigen(), "no"); si no saco el origen nunca se queda no visitado
+					//visitados.replace(arco.getVerticeOrigen(), "no"); //si no saco el origen nunca se queda no visitado
 					arcosVisitados.replace(arcos,  "no");
 					
 					backtracking(solParcial, arcos);
@@ -113,8 +116,8 @@ public class Backtracking2 {
 		
 		System.out.println("Metros solucion: " + metrosTotal);
 		System.out.println("Lista solucion: ");
-		for(Object v:listaSolucion) {
-			System.out.println(v);
+		for(Object a:listaSolucion) {
+			System.out.println(a);
 		}			
 	}
 	
