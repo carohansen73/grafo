@@ -1,83 +1,67 @@
 package Subterraneos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import Grafo.Arco;
 import Grafo.Grafo;
+import Grafo.GrafoNoDirigido;
 
 public class Backtracking {
-	
-	private int origen;
-//	private int destino;
-	private Grafo grafo;
+
+	private GrafoNoDirigido grafo;
 	private Solucion mejorSolucion;
-	private HashMap visitados;
+	private int metrica;
+
 	
-	
-	public Backtracking(Grafo grafo, int origen) {
+	public Backtracking(GrafoNoDirigido grafo, int origen) {
 		this.grafo = grafo;
-		this.origen = origen;
-		this.visitados = new HashMap();
-		mejorSolucion = new Solucion();
+		mejorSolucion = new Solucion();	
+		this.metrica = 0;
 	}
 	
 	
 	public Solucion back() {
-		Iterator vertices = grafo.obtenerVertices();
-		
-		while(vertices.hasNext()) {
-			int v = (int) vertices.next();
-			visitados.put(v, "no");
-		}
-		
+		UnionFind union = new UnionFind(grafo.cantidadVertices());
+
 		mejorSolucion = null;
 		Solucion solParcial = new Solucion();
 		
-		solParcial.agregar(origen);
-		//solParcial.marcarVisitado(origen);
-		visitados.put(origen, "si");
+		Iterator arcos = grafo.obtenerArcos();
 		
-		this.backtracking(origen, solParcial);
+		this.backtracking( solParcial, arcos, union);
 		this.imprimirSolucion();
 		return mejorSolucion;
 	}
 	
-	private void backtracking(int actual, Solucion solParcial) {
-		
-		if(!visitados.containsValue("no")) {
-			System.out.println("-metros : " + solParcial.getMts());
-			
-			if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts())) {
-				
-				mejorSolucion = new Solucion();
-				mejorSolucion.copiar(solParcial);
-				
-				System.out.println("-mejor solucion metros : " + mejorSolucion.getMts());
-				
+	
+	private void backtracking(Solucion solParcial, Iterator arcos, UnionFind union) {
+		this.metrica++;
+		//corte
+		if(solParcial.getIndice() == grafo.cantidadArcos()) {
+			if( union.size() == 1 ) {
+				if(mejorSolucion == null || (solParcial.getMts() < mejorSolucion.getMts()) ) {
+					mejorSolucion = new Solucion();
+					mejorSolucion.copiar(solParcial);
+				}
 			}
 		}else {
-			
-			Iterator adyacentes = grafo.obtenerAdyacentes(actual);
-			while(adyacentes.hasNext()) {
-			
-				int ady = (int) adyacentes.next();
+				Arco arco = (Arco) arcos.next();
 				
-				/* if(!solParcial.contains(ady)) {} */
-				if(visitados.get(ady).equals("no")){
-					
-					solParcial.agregar(ady);
-					solParcial.agregarMts(grafo, actual, ady);
-					visitados.put(ady, "si");
-					
-					backtracking(ady, solParcial);
-					
-					solParcial.borrar(ady);
-					solParcial.restarMts(grafo, actual, ady);
-					visitados.put(ady, "no");
-					
-				}
+				UnionFind tmp = new UnionFind(grafo.cantidadVertices());
+				tmp.copiarUnion(union);
 				
-			}//while ady
+				solParcial.agregarArco(arco, union);
+				union.Union(arco.getVerticeOrigen()-1, arco.getVerticeDestino()-1);
+				solParcial.setIndice(solParcial.getIndice()+1);
+				
+				backtracking(solParcial, arcos, union);
+				
+				solParcial.borrarArco(arco);
+				backtracking(solParcial, arcos, tmp);
+				union.copiarUnion(tmp);
 		}//else
 	}
 	
@@ -85,13 +69,15 @@ public class Backtracking {
 		ArrayList listaSolucion = this.mejorSolucion.getList();
 		int metrosTotal = this.mejorSolucion.getMts();
 		
-		System.out.println("Metros solucion: " + metrosTotal);
-		System.out.println("Lista solucion: ");
-		for(Object v:listaSolucion) {
-			System.out.println(v);
-		}			
+		System.out.println("Backtracking " );
+		System.out.println("Distancia total: " + metrosTotal +" Mts.");
+		
+		
+		//System.out.print("Lista solucion: ");
+		for(Object a:listaSolucion) {
+			System.out.print(a + ", ");
+		}		
+		System.out.println(  "\nMetrica: "+this.metrica);
 	}
 	
-	
 }
-

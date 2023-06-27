@@ -1,13 +1,14 @@
 package TP;
 
+
 import java.util.Iterator;
-import Subterraneos.Greedy2;
 
 
 import Grafo.GrafoDirigido;
 import Grafo.GrafoNoDirigido;
 import Subterraneos.Backtracking;
-import Subterraneos.Backtracking2;
+import Subterraneos.Greedy;
+
 public class Main2 {
 
 	public static void main(String[] args) {
@@ -56,7 +57,7 @@ public class Main2 {
 		*/
 		
 		/*
-		Backtracking2 backtr = new Backtracking2(grafo, 1);
+		Backtracking backtr = new Backtracking(grafo, 1);
 		backtr.back();
 		*/
 		/*
@@ -66,7 +67,7 @@ public class Main2 {
 		}
 		*/
 		
-		Greedy2 gr = new Greedy2(grafo);
+		Greedy gr = new Greedy(grafo);
 		gr.Greedy();
 		
 		

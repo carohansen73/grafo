@@ -36,9 +36,9 @@ public class UnionFind {
         return ans;
     }  
     
-  //Método que me determina si 2 vértices estan o no en la misma componente conexa
+  //MÃ©todo que me determina si 2 vÃ©rtices estan o no en la misma componente conexa
   	public boolean sameComponent( int x , int y ){
-  	    if( Find( x ) == Find( y ) ) return true;   //si poseen la misma raíz
+  	    if( Find( x ) == Find( y ) ) return true;   //si poseen la misma raÃ­z
   	    return false;
   	}
   	

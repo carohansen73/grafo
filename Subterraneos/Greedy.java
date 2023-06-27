@@ -11,11 +11,12 @@ public class Greedy {
 	private GrafoNoDirigido grafo;
 	private int metros;
 	private UnionFind union;
+	private int metrica;
 	
 	public Greedy(GrafoNoDirigido grafo) {
 		this.grafo = grafo;
 		this.metros = 0;
-	
+		this.metrica = 0;
 	}
 	
 	public void Greedy(){	
@@ -29,60 +30,30 @@ public class Greedy {
     	    Arco<Integer> arco = arcos.next();
     	    C.add(arco);
     	}
+		//ordenar por menor tamaÃ±o los arcos
+		ordenar(C);     
 		
-		ordenar(C);     //ordenar por menor tamaño los arcos
-		
-		
-		while((!C.isEmpty()) && (!completeSolucion(S)) ){     
-		
-			Arco x = C.get(0);    //Selecciona el 1er arco/c.getByIndex(0)
-			System.out.println("arco " +x);
-			C.remove(0);                 //lo borro del conjunto
-			
-			if( esFactible(S,x) ){          //chequea que necesite ese arco, que no contenga ya los V				
-				S.add(x);           //lo agrego a la solución
+		while((!C.isEmpty()) && (!completeSolucion(S)) ){   
+			this.metrica++;
+			//Selecciona el 1er arco y lo borra del conjunto
+			Arco x = C.get(0);    
+			C.remove(0);                 
+			//chequea que necesite ese arco	
+			if( esFactible(x) ){   
+				//lo agrega a la soluciÃ³n
+				S.add(x);          
 				this.metros += (int) x.getEtiqueta();
 				union.Union(x.getVerticeOrigen()-1, x.getVerticeDestino()-1);
-				
-				System.out.println("number cnnected components" + union.size());
-				
 			}
 		}
-			if(completeSolucion(S)){
-				System.out.println("solucion : " + S);
-				//return S;
-			}
-			else {
-				System.out.println("No encontro solucion : " +S);
-				//return S = null;  
-			}
-		
-			
-	}
-	/*
-	public void ordenar(ArrayList<Arco<Integer>> c) {
-		boolean intercambiado = true;
-		int j = 0;
-		Arco tmp;
-		
-		while (intercambiado) {
-			intercambiado = false;
-			j++;
-			
-			for( int i = 0; i < c.size(); i++) {
-				System.out.println( (int)( c.get(i)).getEtiqueta() );
-				
-				if( ( (int)( c.get(i)).getEtiqueta() ) > ( (int)(c.get(i+1)).getEtiqueta()) ) {
-					tmp =  c.get(i);
-					c.set(i,  c.get(i+1));
-					c.set(i+1,  tmp);
-				
-					intercambiado = true;
-				}
-			}
+		if(completeSolucion(S)){
+			imprimirSolucion(S);
+		}
+		else {
+			System.out.println("No encontro solucion.");
 		}
 	}
-	*/
+	
 	public void ordenar(ArrayList<Arco<Integer>> arr) {
 		for (int i = 1; i < arr.size(); i++) {
     	    Arco<Integer> arcoActual = arr.get(i);
@@ -96,44 +67,33 @@ public class Greedy {
 	}
 	
 	
-	private boolean esFactible(ArrayList<Arco> solucion, Arco a) {
-		int vOrigen = a.getVerticeOrigen();
-		int vDestino = a.getVerticeDestino();
-		
-		ArrayList<Integer> verticesConectados = new ArrayList();
-		for( Arco s:solucion) {
-			verticesConectados.add(s.getVerticeOrigen());
-			verticesConectados.add(s.getVerticeDestino());
-		}
-		
-		System.out.println("find origen: "+ union.Find(a.getVerticeOrigen()-1));
-		System.out.println("find destino: "+ union.Find(a.getVerticeDestino()-1));
-		
+	private boolean esFactible( Arco a) {
 		if(union.Find(a.getVerticeOrigen() -1)== union.Find(a.getVerticeDestino() -1)) {
-			
 			return false;
 		}else {
 			
 			return true;
 		}
-		
 	}
 	
 	public boolean completeSolucion(ArrayList<Arco> solucion) {
-		
-		
 		if(union.size() == 1) { 
 			return true;
 		}
-		else {return false;}
-		
-			
+		else {
+			return false;
+		}	
 	}
 	
-	private boolean esConexo() {
-		 
-        return true; 
-    
+	public void imprimirSolucion(ArrayList solucion) {
+		System.out.println("Greedy " );
+		System.out.println("Distancia total: " + this.metros +" Mts.");
+		
+		
+		for(Object a:solucion) {
+			System.out.print(a + ", ");
+		}		
+		System.out.println(  "\nMetrica: "+this.metrica);
 	}
 		
 		
